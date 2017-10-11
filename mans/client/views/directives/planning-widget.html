@@ -1,0 +1,26 @@
+<div class="inner_box panel panel-default">
+    <div class="panel-body">
+        <h5 class="box_title">
+        {{[controller.data.week]=='thisWeek'? 'Próxima clase' : 'Clase anterior'}}
+        </h5>
+        <h5 class="box_title">
+            {{data[controller.data.week][controller.data.type].date | date:'dd/MM/yyyy'}} 
+            <span ng-show="controller.data.week == 'thisWeek'">de 18:30 a 19:30 hrs</span>
+        </h5>
+        <table class="table">
+            <thead>
+                <th>Usuario</th>
+                <th>Fecha de inscripción</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in data[controller.data.week][controller.data.type].users | orderBy:['waitList', 'creationDate']"    
+                        ng-class="{'warning' : user.waitList, 'info' : !user.waitList}">
+                    <td ng-model="data[controller.data.week][controller.data.type].users[user]">{{user.name}}</td>
+                    <td >{{user.creationDate | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td><a href="" class="waiting-list" ng-show="{{user.waitList}}">Reserva</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

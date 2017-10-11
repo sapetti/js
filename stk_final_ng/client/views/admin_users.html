@@ -1,0 +1,59 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Softtek - Cena aniversario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <!--script src="https://cdn.socket.io/socket.io-1.2.0.js"></script-->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/setup.js"></script>
+    <script src="js/app-admin.js"></script>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="container">
+    <!-- Header and menu -->
+    <% include ./partials/menu %>
+
+    <!-- Users -->
+    <h2><small>Users</small></h2>
+    <!--div class="well"-->
+        <table class="table">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <!--th>Password</th-->
+                <!--th>IsAdmin</th-->
+            </tr>
+            <% for(var i=0; i<users.length; i++) {%>
+               <tr>
+                 <td>
+                   <%= i + 1 %>
+                 </td>
+                 <td>
+                   <%= users[i].local.email%>
+                 </td>
+                 <!--td>
+                   <%= users[i].local.password%>
+                 </td>
+                 <td>
+                    <%if (users[i].local.admin) { %>
+                       <span class="glyphicon glyphicon-ok"></span>
+                    <% } else { %>
+                        <span class="glyphicon glyphicon-remove"></span>
+                    <% } %>
+                 </td-->
+               </tr>
+            <% } %>
+        </table>
+    <!--/div-->
+</div>
+<script>
+    document.getElementById("menu_users").className = "active";
+    socket.emit('endQuiz');
+</script>
+</body>
+</html>

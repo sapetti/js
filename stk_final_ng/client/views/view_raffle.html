@@ -1,0 +1,50 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Softtek - Cena aniversario 2015</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <!--script src="https://cdn.socket.io/socket.io-1.2.0.js"></script-->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/slot.js"></script>
+    <script src="js/setup.js"></script>
+    <script src="js/app-admin.js"></script>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="container">
+    <!-- Header and menu -->
+    <% include ./partials/menu %>
+
+    <h2><small>Sorteo</small></h2>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button id="next" class="btn btn-warning">Sortear</button>
+        <!--button id="restart" class="btn btn-warning">Reiniciar</button-->
+      </div>
+      <div id="raffle_slot" class="panel-body"><canvas></canvas></div>
+      <div id="summary" class="panel-body"></div>
+    </div>
+
+</div>
+<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script-->
+<script>
+    document.getElementById("menu_raffle").className = "active";
+
+    $('#next').click(function() {
+        socket.emit('chooseWinner');
+    });
+
+    $('#restart').click(function() {
+        socket.emit('restartRaffle');
+    });
+
+    socket.emit('restartRaffle');
+
+</script>
+</body>
+</html>

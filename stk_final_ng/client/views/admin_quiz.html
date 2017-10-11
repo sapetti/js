@@ -1,0 +1,143 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Softtek - Cena aniversario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!--script src="https://cdn.socket.io/socket.io-1.2.0.js"></script-->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/setup.js"></script>
+    <script src="js/app-admin.js"></script>
+</head>
+<body>
+<div class="container">
+    <!-- Header and menu -->
+    <% include ./partials/menu %>
+
+    <h2><small>Admin quiz</small></h2>
+
+    <div class="button_bar">
+    <h3 ><small>Questions</small></h3>
+    </div>
+
+    <table id="quiz_table" class="table">
+        <tr>
+            <th>#</th>
+            <th>Question</th>
+            <th>Answer1</th>
+            <th>Answer2</th>
+            <th>Answer3</th>
+            <th>Answer4</th>
+            <th>Solution</th>
+            <th></th>
+        </tr>
+
+
+        <% for(var i=0; i<quiz_data.length; i++) {%>
+            <tr>
+                <td><%= i +1 %></td>
+                <td><%= quiz_data[i].question%></td>
+                <% for(var j=0; j<quiz_data[i].answers.length; j++) {%>
+                    <td><%= quiz_data[i].answers[j] %></td>
+                <% } %>
+                <td><%= (quiz_data[i].solution+1)%></td>
+                <td><button class="buttons redIcon removeRow"><span class="glyphicon glyphicon-remove"></button></td>
+            </tr>
+        <% } %>
+    </table>
+
+    <form action="/add_quiz" id="addQuizForm" method="post" class="form_flex">
+        <div class="form-group form_input_eighty">
+            <label>Question</label>
+            <input type="text" name="q" class="form-control">
+        </div>
+        <div class="form-group form_input_twenty">
+            <label>Solution</label>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"></button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" id="action-1" href="#">Answer 1</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" id="action-2" href="#">Answer 2</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" id="action-3" href="#">Answer 3</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" id="action-4" href="#">Answer 4</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group form_input_half">
+            <label>Answer1</label>
+            <input type="text" class="form-control" name="a1"/>
+        </div>
+        <div class="form-group form_input_half">
+            <label>Answer2</label>
+            <input type="text" class="form-control" name="a2"/>
+        </div>
+        <div class="form-group form_input_half">
+            <label>Answer3</label>
+        <input type="text" class="form-control" name="a3"/>
+        </div>
+        <div class="form-group form_input_half">
+            <label>Answer4</label>
+            <input type="text" class="form-control" name="a4"/>
+        </div>
+        <div class="form-group form_input_full">
+            <input type="hidden" name="right_answer"/>
+            <button type="submit" class="btn btn-warning">Add</button>
+            <button id="cancel" class="btn btn-warning" onclick="cancelSubmit">Cancel</button>
+        </div>
+    </form>
+
+</div>
+<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script-->
+<script>
+    document.getElementById("menu_quiz_admin").className = "active";
+
+    $("#action-1").click(function(e){
+        e.preventDefault();
+        $('input[name="right_answer"]').val('1');
+        $("#menu1").html('Anwser 1 <span class="caret"></span>');
+    });
+
+    $("#action-2").click(function(e){
+        e.preventDefault();
+        $('input[name="right_answer"]').val('2');
+        $("#menu1").html('Anwser 2 <span class="caret"></span>');
+    });
+
+    $("#action-3").click(function(e){
+        e.preventDefault();
+        $('input[name="right_answer"]').val('3');
+        $("#menu1").html('Anwser 3 <span class="caret"></span>');
+    });
+
+    $("#action-4").click(function(e){
+        e.preventDefault();
+        $('input[name="right_answer"]').val('4');
+        $("#menu1").html('Anwser 4 <span class="caret"></span>');
+    });
+
+    $(".removeRow").click(function(e) {
+        e.preventDefault();
+        var question_text = $(this).closest('tr').find('td').eq(1).text();
+        console.log('Remove tr ' + question_text);
+        $(this).closest('tr').remove();
+        $.ajax({
+          method: "POST",
+          url: "/remove_quiz",
+          data: { question: question_text }
+        })
+        .fail(function(msg) {
+            alert( "Error deleting row: " + msg.responseJSON.reason );
+        });
+    });
+
+    cancelSubmit();
+
+    socket.emit('endQuiz');
+
+</script>
+</body>
+</html>

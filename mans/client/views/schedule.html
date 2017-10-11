@@ -1,0 +1,35 @@
+<div ng-show="active">
+<div class="formContainer">
+    <h1>Registro de actividades</h1>
+    <a href="/logout" class="logout_link">Salir</a>
+    </br>
+    <h5>Regístrate para la siguiente clase:</h5>
+    <form id="userForm" name="myForm" class="ng-valid ng-dirty ng-submitted" ng-controller="submitUserCtrl as controller" novalidate>
+      <!--input type="text" id="user-name" placeholder="Inserte su nombre" ng-model="controller.data.name" ng-maxlength=50 required/>
+      <input type="email" id="user-mail" placeholder="Inserte su dirección de email" ng-model="controller.data.mail" required/-->
+      <select id="training-type" ng-model="controller.data.type" required>
+        <option value="functional">Entrenamiento funcional</option>
+        <option value="pilates">Pilates</option>
+      </select>
+      <button class="btn btn-default" ng-click="myForm.$valid && addUser()" value="Registrar">Registrar</button>
+      </br>
+      <div class="error" ng-show="controller.formError">{{controller.formError}}</div>
+      <div ng-show="controller.success"><p>La aplicación emitirá un aviso para informarle si finalmente participará o no en la clase.</p></div>
+    </form>
+</div>
+
+<div class="flexContainer">
+  
+    
+    <!-- functional training -->
+    <h4 class="training-header">Entrenamiento funcional</h4>
+    <div class="box disabled"><planning-widget ng-controller="functionalLastWeekCtrl as controller"></planning-widget></div>
+    <div class="box"><planning-widget ng-controller="functionalCurrentWeekCtrl as controller"></planning-widget></div>
+
+    <!-- pilates training -->
+    <h4 class="training-header">Pilates</h4>
+    <div class="box disabled"><planning-widget ng-controller="pilatesLastWeekCtrl as controller"></planning-widget></div>
+    <div class="box"><planning-widget ng-controller="pilatesCurrentWeekCtrl as controller"></planning-widget></div>
+    
+</div>
+</div>

@@ -1,0 +1,79 @@
+<!doctype html>
+<!-- views/index.ejs -->
+<html>
+<head>
+    <title>Softtek - Cena aniversario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <!--script src="https://cdn.socket.io/socket.io-1.2.0.js"></script-->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/setup.js"></script>
+    <script src="js/app-admin.js"></script>
+    <link rel="stylesheet" href="css/admin.css">
+    <style type="text/css">
+        .winner{
+            background-color: lightgreen !important;
+        }
+        .redIcon {
+          color: red;
+        }
+        .greenIcon {
+          color: green;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header and menu -->
+    <% include ./partials/menu %>
+
+    <h2><small>Quiz view</small></h2>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <!--button id="previous" class="btn btn-warning">Anterior</button-->
+        <button id="next" class="btn btn-warning">Siguiente</button>
+        <!--button id="end" class="btn btn-warning">End Quiz</button-->
+        <!--button id="restart" class="btn btn-warning">Restart</button-->
+      </div>
+      <div id="quiz_question" class="panel-body"></div>
+      <div id="summaryQuiz" class="panel-body"></div>
+    </div>
+
+</div>
+<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script-->
+<script>
+
+    document.getElementById("menu_quiz").className = "active";
+
+    $('#previous').click(function() {
+        console.log('click previous');
+        socket.emit('previousQuestion');
+    });
+
+    $('#next').click(function() {
+        console.log('click next');
+        socket.emit('nextQuestion');
+    });
+
+    $('#end').click(function() {
+        console.log('click end');
+        socket.emit('endQuiz');
+    });
+
+    $('#restart').click(function() {
+        console.log('click restart');
+        socket.emit('restartQuiz');
+    });
+
+    $('a').click(function() {
+      socket.emit('endQuiz');
+    });
+
+    socket.emit('restartQuiz');
+
+</script>
+</body>
+</html>

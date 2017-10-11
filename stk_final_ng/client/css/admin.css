@@ -1,0 +1,41 @@
+
+
+    canvas{
+      /*position: absolute;*/
+      background: white;
+      left: 10%;
+      top: 10%;
+      width: 100%;
+    }
+    .winner{
+        background-color: lightgreen !important;
+    }
+    .buttons {
+        margin-right: 2px;
+    }
+    .redIcon {
+      color: red;
+    }
+    .greenIcon {
+      color: green;
+    }
+    .button_bar {
+        width: 100%;
+    }
+    .form_flex {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0px 0px 0px 15px;
+    }
+    .form_input_eighty {
+        min-width: 75%;
+        padding: 0px 0px 0px 4px;
+    }
+    .form_input_twenty {
+        min-width: 18%;
+        padding: 0px 0px 0px 4px;
+    }
+    .form_input_half {
+        min-width: 47%;
+        padding: 0px 0px 0px 4px;
+    }

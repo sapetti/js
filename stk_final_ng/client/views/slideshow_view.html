@@ -1,0 +1,70 @@
+<!-- views/index.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Softtek - Cena aniversario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <!--script src="https://cdn.socket.io/socket.io-1.2.0.js"></script-->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/setup.js"></script>
+    <script src="js/app-admin.js"></script>
+    <style>
+    :-webkit-full-screen {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      background: none;
+    }
+    </style>
+</head>
+<body>
+<div class="container">
+  <% include ./partials/menu %>
+    <div>
+        <section class="gallery">
+          <img id="gallery-img" src="/photos/home.jpg" class="img-responsive">
+        </section>
+    </div>
+    </br>
+    </br>
+    </br>
+</div>
+<script>
+
+    document.getElementById("menu_slideshow").className = "active";
+    socket.emit('endQuiz');
+
+    jQuery(function($) {
+        socket.on('emitPhoto', function (data) {
+            //console.log('on emitPhoto');
+            $('#gallery-img').prop('src', data.path + '/' + data.photo + '?' + Math.random());
+            if($('#fullscreen').css('display') == 'none') {
+              $('#fullscreen').css("display","block");
+              $("#fullscreen").click(function(e){
+                  //console.log('fullscreen');
+                  //e.preventDefault();
+                  var i = document.getElementById("gallery-img");
+                  if (i.requestFullscreen) {
+                    i.requestFullscreen();
+                  } else if (i.webkitRequestFullscreen) {
+                    i.webkitRequestFullscreen();
+                  } else if (i.mozRequestFullScreen) {
+                    i.mozRequestFullScreen();
+                  } else if (i.msRequestFullscreen) {
+                    i.msRequestFullscreen();
+                  }
+              });
+            }
+        });
+
+        socket.on('refresh', function (data) {
+            console.log('on refresh');
+        });
+
+    });
+</script>
+</body>
+</html>
